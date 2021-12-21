@@ -41,3 +41,24 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 262768565
+    locked: 0
+  - name: Wall
+    uniqueID: 560134579
+    locked: 0
+  - name: Fence
+    uniqueID: 2042156215
+    locked: 0
+  - name: Floor
+    uniqueID: 840385603
+    locked: 0
+  - name: Rails
+    uniqueID: 432592843
+    locked: 0
+  - name: Player
+    uniqueID: 4053581449
+    locked: 0
+  - name: Pillar
+    uniqueID: 224852571
+    locked: 0

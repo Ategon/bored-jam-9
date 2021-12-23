@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.24
 --- !u!212 &89631852
 SpriteRenderer:
@@ -324,6 +324,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light 2D (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9157600957634201820, guid: cb090c473fca6c54696a32b0628bc586, type: 3}
+      propertyPath: parallaxSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9157600957634201823, guid: cb090c473fca6c54696a32b0628bc586, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -420,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &420696606
 SpriteRenderer:
@@ -519,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.24
 --- !u!212 &466717023
 SpriteRenderer:
@@ -618,7 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &514165894
 SpriteRenderer:
@@ -717,7 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &661716764
 SpriteRenderer:
@@ -816,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &813439429
 SpriteRenderer:
@@ -987,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.24
 --- !u!212 &958163552
 SpriteRenderer:
@@ -1084,7 +1088,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1049688020}
-  - component: {fileID: 1049688021}
   m_Layer: 0
   m_Name: Light Manager
   m_TagString: Untagged
@@ -1109,24 +1112,6 @@ Transform:
   m_Father: {fileID: 821187514}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1049688021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1049688019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ded3e09556bcf04c8891061e06ac8c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lights:
-  - {fileID: 9157600957634201822, guid: cb090c473fca6c54696a32b0628bc586, type: 3}
-  - {fileID: 9157600957634201822, guid: 359958c6cfe0bb647b8e1e29181c9dc1, type: 3}
-  - {fileID: 9157600957634201822, guid: a36c2e137804e5f4dab40f653f0e2575, type: 3}
-  - {fileID: 9157600957634201822, guid: 39b943b9d7710ac4babad200d46a76d2, type: 3}
-  - {fileID: 9157600957634201822, guid: ff76703c0fb866f4099f5bd4bb948cf0, type: 3}
 --- !u!1 &1064051045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,6 +1203,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1798113488, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 248
+      objectReference: {fileID: 0}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P4CharacterSelect
@@ -1302,6 +1291,82 @@ Transform:
   m_Father: {fileID: 821187514}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1288752119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288752122}
+  - component: {fileID: 1288752121}
+  - component: {fileID: 1288752123}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1288752121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288752119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1288752122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288752119}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1288752123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288752119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!1 &1321097535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &1321680531
 SpriteRenderer:
@@ -1518,6 +1583,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1798113488, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 141
+      objectReference: {fileID: 0}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P3CharacterSelect
@@ -1613,7 +1682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &1545897165
 SpriteRenderer:
@@ -1674,6 +1743,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1798113488, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P2CharacterSelect
@@ -1801,6 +1874,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light 2D (1) 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9157600957634201820, guid: 359958c6cfe0bb647b8e1e29181c9dc1, type: 3}
+      propertyPath: parallaxSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9157600957634201823, guid: 359958c6cfe0bb647b8e1e29181c9dc1, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1897,7 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &1851247642
 SpriteRenderer:
@@ -1996,7 +2073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &1852804214
 SpriteRenderer:
@@ -2059,7 +2136,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1861722979}
-  - component: {fileID: 1861722980}
   m_Layer: 0
   m_Name: PillarManager
   m_TagString: Untagged
@@ -2083,19 +2159,6 @@ Transform:
   m_Father: {fileID: 821187514}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1861722980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861722978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336cfeace287e774986c9dbe52c1de7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pillar: {fileID: 4127651645233126162, guid: 01a7090b42dd44547bf066a362b37c1e, type: 3}
 --- !u!1 &2042762997
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,7 +2314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bd5d808f14c05429ee12795ed60855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 1.2
+  parallaxSpeed: 0
   length: 6.4
 --- !u!212 &2103716973
 SpriteRenderer:
@@ -2415,6 +2478,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5236670461188449837, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6731954553597883818, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

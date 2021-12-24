@@ -1207,6 +1207,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 248
       objectReference: {fileID: 0}
+    - target: {fileID: 3147215901831488291, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1546209666, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
+    - target: {fileID: 4674168394054646415, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1284150319, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P4CharacterSelect
@@ -1587,6 +1595,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 141
       objectReference: {fileID: 0}
+    - target: {fileID: 3147215901831488291, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -873587262, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
+    - target: {fileID: 4674168394054646415, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 795467822, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P3CharacterSelect
@@ -1747,6 +1763,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 3147215901831488291, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1865742418, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
+    - target: {fileID: 4674168394054646415, guid: 3b5ce975667efed4d955697ade355332, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -401930495, guid: 767fe04e2fce6ed428f70f7db3d4b253, type: 3}
     - target: {fileID: 5236670461188449836, guid: 3b5ce975667efed4d955697ade355332, type: 3}
       propertyPath: m_Name
       value: P2CharacterSelect

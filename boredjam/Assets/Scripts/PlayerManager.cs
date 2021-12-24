@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    
+    public int activePlayers = 0;
 }

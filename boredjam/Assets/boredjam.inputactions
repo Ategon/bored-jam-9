@@ -61,21 +61,21 @@
                 },
                 {
                     "name": "Move (2P-1)",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "94ac38ed-b468-441c-8108-27b31a37c664",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Move (2P-2)",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "e95b225b-b16b-4b15-9007-d9fbd4d522a3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump (2P-1)",
@@ -114,7 +114,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Add Paint (2P-1)",
+                    "name": "Dash (2P-1)",
                     "type": "Button",
                     "id": "875abf1a-d519-4d11-a3b6-b346d0b72e48",
                     "expectedControlType": "Button",
@@ -123,7 +123,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Add Paint (2P-2)",
+                    "name": "Dash (2P-2)",
                     "type": "Button",
                     "id": "b372db66-ab19-4e29-a2c5-9e18668a14d7",
                     "expectedControlType": "Button",
@@ -132,7 +132,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Release Paint (2P-1)",
+                    "name": "Fireball (2P-1)",
                     "type": "Button",
                     "id": "ed92f56a-e1ca-4254-8aea-29650b3c090d",
                     "expectedControlType": "Button",
@@ -141,7 +141,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Release Paint (2P-2)",
+                    "name": "Fireball (2P-2)",
                     "type": "Button",
                     "id": "f5240ed2-0ee5-401d-9157-ce9c0e61b0bb",
                     "expectedControlType": "Button",
@@ -372,9 +372,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "2D Vector",
                     "id": "031afdc4-cd65-43b8-bb28-cc53c3d51840",
-                    "path": "1DAxis",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -383,31 +383,53 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
+                    "name": "Up",
                     "id": "186445f1-db5a-4e88-9c1d-3c99ace307e2",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Move (2P-1)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "9d8f5f03-80d9-4b5f-8b75-b2066ca6d95a",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Move (2P-1)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "db86b42c-bba3-4d15-aaf3-8ef309fb14ff",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "",
                     "action": "Move (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "9d8f5f03-80d9-4b5f-8b75-b2066ca6d95a",
+                    "name": "Right",
+                    "id": "c39d7283-2028-4302-b0a9-a6d52de195ef",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "",
                     "action": "Move (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "2D Vector",
                     "id": "ac1e6c4e-9f05-4768-8016-ba838f0c9d27",
-                    "path": "1DAxis",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -416,9 +438,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
+                    "name": "Up",
                     "id": "6617efd2-31e5-4c51-abb3-8f1967400b57",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -427,12 +449,34 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
+                    "name": "Down",
                     "id": "f167d537-1ad7-4b24-97d3-d9454c412b90",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Move (2P-2)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "2593c853-3773-40d0-b6b8-0841b188ef2d",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move (2P-2)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "9f0fc441-096f-4ffc-9153-d849dceea780",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Move (2P-2)",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -488,7 +532,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Add Paint (2P-1)",
+                    "action": "Dash (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -499,7 +543,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Add Paint (2P-2)",
+                    "action": "Dash (2P-2)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -510,7 +554,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Release Paint (2P-1)",
+                    "action": "Fireball (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -521,7 +565,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Release Paint (2P-2)",
+                    "action": "Fireball (2P-2)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -14,6 +15,17 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Color optionsColor;
     [SerializeField] private Color creditsColor;
     [SerializeField] private Color podiumColor;
+    [SerializeField] private Slider[] sliders;
+    private PersistingData persistingData;
+
+    public void Start()
+    {
+        persistingData = GameObject.Find("PersistingData").GetComponent<PersistingData>();
+        sliders[0].value = persistingData.MasterVolume;
+        sliders[1].value = persistingData.SoundtracksVolume;
+        sliders[2].value = persistingData.SfxVolume;
+        sliders[3].value = persistingData.GameVolume;
+    }
 
     public void SetNormalColor()
     {
@@ -57,5 +69,36 @@ public class MenuManager : MonoBehaviour
     public void BatterFingers()
     {
         Application.OpenURL("https://twitter.com/Batterfingers");
+    }
+
+    public void ToggleFullscreen()
+    {
+        if (Screen.fullScreenMode == FullScreenMode.Windowed)
+        {
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+        }
+        else
+        {
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+    }
+
+    public void UpdateMasterVolume(float amount){
+        persistingData.MasterVolume = (int) amount;
+    }
+
+    public void UpdateSoundtracksVolume(float amount)
+    {
+        persistingData.SoundtracksVolume = (int)amount;
+    }
+
+    public void UpdateSfxVolume(float amount)
+    {
+        persistingData.SfxVolume = (int)amount;
+    }
+
+    public void UpdateGameVolume(float amount)
+    {
+        persistingData.GameVolume = (int)amount;
     }
 }

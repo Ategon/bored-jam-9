@@ -4,15 +4,79 @@ using UnityEngine;
 
 public class PersistingData : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private int masterVolume = 5;
+    private int soundtracksVolume = 5;
+    private int sfxVolume = 5;
+    private int gameVolume = 5;
+    public static PersistingData singleton = null;
+   
+    public static event System.Action OnGameVolume;
+    public static event System.Action OnUIVolume;
+    public static event System.Action OnSoundtrackVolume;
+
     void Start()
     {
-        
+        if(singleton != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            singleton = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public int MasterVolume { 
+        get 
+        {
+            return masterVolume; 
+        } 
+        set
+        {
+            masterVolume = value;
+            OnGameVolume?.Invoke();
+            OnUIVolume?.Invoke();
+            OnSoundtrackVolume?.Invoke();
+        } 
+    }
+
+    public int SoundtracksVolume
     {
-        
+        get
+        {
+            return soundtracksVolume;
+        }
+        set
+        {
+            soundtracksVolume = value;
+            OnSoundtrackVolume?.Invoke();
+        }
+    }
+
+    public int GameVolume
+    {
+        get
+        {
+            return gameVolume;
+        }
+        set
+        {
+            gameVolume = value;
+            OnGameVolume?.Invoke();
+        }
+    }
+
+    public int SfxVolume
+    {
+        get
+        {
+            return sfxVolume;
+        }
+        set
+        {
+            sfxVolume = value;
+            OnUIVolume?.Invoke();
+        }
     }
 }

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject[] colorTiles;
+    [SerializeField] private Sprite[] controlsSprites;
 
     private GameObject characterSelect;
     private GameObject character2Select;
@@ -615,6 +616,7 @@ public class PlayerController : MonoBehaviour
                         playerManager.activePlayers++;
                         playerManager.totalPlayers++;
                         splitIndex = playerManager.totalPlayers - 1;
+                        characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[1];
 
                         if (playerManager.overrideIndex != -1)
                         {
@@ -673,6 +675,11 @@ public class PlayerController : MonoBehaviour
                 character2Select.transform.Find("Press Text").gameObject.SetActive(true);
                 character2Select.transform.Find("Character").gameObject.SetActive(false);
                 character2Select.transform.Find("Colors").gameObject.SetActive(false);
+
+                character2Select.transform.Find("Controls").gameObject.SetActive(false);
+                character2Select.transform.Find("Player Tag").gameObject.SetActive(false);
+
+                characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[0];
 
                 playerManager.overrideIndex = splitIndex;
             }
@@ -781,6 +788,50 @@ public class PlayerController : MonoBehaviour
 
     public void GenerateSprite(int index, GameObject characterSelect, List<PaletteColor> paletteColors)
     {
+        characterSelect.transform.Find("Controls").gameObject.SetActive(true);
+
+        if (characterSelect == character2Select)
+        {
+            if(p2ColorSelectIndex == 7)
+            {
+                characterSelect.transform.Find("Refresh").gameObject.SetActive(true);
+            }
+            else
+            {
+                characterSelect.transform.Find("Refresh").gameObject.SetActive(false);
+            }
+
+            characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[2];
+        } 
+        else
+        {
+            if (p1ColorSelectIndex == 7)
+            {
+                characterSelect.transform.Find("Refresh").gameObject.SetActive(true);
+            }
+            else
+            {
+                characterSelect.transform.Find("Refresh").gameObject.SetActive(false);
+            }
+
+            if (playerInput.currentControlScheme == "Keyboard&Mouse")
+            {
+                if (splitKeyboard)
+                {
+                    characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[1];
+                }
+                else
+                {
+                    characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[0];
+                }
+            } 
+            else
+            {
+                characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[3];
+            }
+        }
+
+
         characterSelect.transform.Find("Character").Find("Hair L").gameObject.GetComponent<SpriteRenderer>().color = paletteColors[index].hairL;
         characterSelect.transform.Find("Character").Find("Hair M").gameObject.GetComponent<SpriteRenderer>().color = paletteColors[index].hairM;
         characterSelect.transform.Find("Character").Find("Hair D").gameObject.GetComponent<SpriteRenderer>().color = paletteColors[index].hairD;

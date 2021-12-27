@@ -385,7 +385,7 @@
                 {
                     "name": "Up",
                     "id": "186445f1-db5a-4e88-9c1d-3c99ace307e2",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -396,7 +396,7 @@
                 {
                     "name": "Down",
                     "id": "9d8f5f03-80d9-4b5f-8b75-b2066ca6d95a",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -407,7 +407,7 @@
                 {
                     "name": "Left",
                     "id": "db86b42c-bba3-4d15-aaf3-8ef309fb14ff",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -418,7 +418,7 @@
                 {
                     "name": "Right",
                     "id": "c39d7283-2028-4302-b0a9-a6d52de195ef",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -440,7 +440,7 @@
                 {
                     "name": "Up",
                     "id": "6617efd2-31e5-4c51-abb3-8f1967400b57",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -451,7 +451,7 @@
                 {
                     "name": "Down",
                     "id": "f167d537-1ad7-4b24-97d3-d9454c412b90",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -462,7 +462,7 @@
                 {
                     "name": "Left",
                     "id": "2593c853-3773-40d0-b6b8-0841b188ef2d",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -473,7 +473,7 @@
                 {
                     "name": "Right",
                     "id": "9f0fc441-096f-4ffc-9153-d849dceea780",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -483,30 +483,8 @@
                 },
                 {
                     "name": "",
-                    "id": "83a22aa0-43b1-42c1-8530-d02efcc899a2",
-                    "path": "<Keyboard>/n",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Jump (2P-1)",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dc7717b1-ca7a-4aa4-aed9-0c7fc3c5587f",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Jump (2P-2)",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4d2aeec5-e97b-4a9a-809b-50db4011f91a",
-                    "path": "<Keyboard>/m",
+                    "path": "<Keyboard>/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -516,8 +494,30 @@
                 },
                 {
                     "name": "",
-                    "id": "72a926a7-b4bb-4de3-87ff-f22141b19f1f",
-                    "path": "<Keyboard>/y",
+                    "id": "63119187-a1bd-4555-9f9d-a1ea80bce186",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump (2P-2)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "483603ea-a9bb-41c6-8a2f-72663504ef55",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump (2P-1)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b48172ee-c937-48bb-ab94-62b034f11d23",
+                    "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -527,19 +527,8 @@
                 },
                 {
                     "name": "",
-                    "id": "bf98338f-e213-4ced-b061-e1ec82056598",
+                    "id": "7fe34ce0-0ba8-4428-ad73-f46c188b61ba",
                     "path": "<Keyboard>/comma",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash (2P-1)",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d583af57-2263-481a-96fd-a6498399d9c9",
-                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -549,23 +538,34 @@
                 },
                 {
                     "name": "",
-                    "id": "cd629134-0a76-4621-9a11-65f1bb1e7f67",
-                    "path": "<Keyboard>/period",
+                    "id": "159b14ef-b128-4a99-8945-14413b4ede5e",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Fireball (2P-1)",
+                    "action": "Dash (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "91ad8d45-4a43-41a8-9fd0-1c4ffe055d11",
-                    "path": "<Keyboard>/r",
+                    "id": "148f7de7-e96d-4330-83b7-6978df922c1b",
+                    "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Fireball (2P-2)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e4c31af-5a37-4fa1-b03f-ffddd7b5ac78",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Fireball (2P-1)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

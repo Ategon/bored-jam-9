@@ -373,6 +373,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 5484429630711945877}
   colorTiles: []
+  controlsSprites:
+  - {fileID: 1862464476, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
+  - {fileID: 1749735056, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
+  - {fileID: 676174020, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
+  - {fileID: -1908403876, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
   splitKeyboard: 0
   escape: 0
   p1Jump: 0

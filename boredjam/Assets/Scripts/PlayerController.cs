@@ -22,8 +22,13 @@ public class PlayerController : MonoBehaviour
     private bool escapeBuffer2 = false;
     private bool jumpBuffer2 = true;
     private bool attackBuffer2 = true;
+    private GameObject playerObject;
+    private GameObject playerObject2;
+    [SerializeField] private GameObject playerPrefab;
 
     [Header("Variables")]
+    [SerializeField] private float defaultX;
+    [SerializeField] private float defaultX2;
     [SerializeField] private bool splitKeyboard = false;
     [SerializeField] private bool escape;
     [SerializeField] private bool p1Jump;
@@ -47,6 +52,16 @@ public class PlayerController : MonoBehaviour
     private int selectingState2 = 0;
 
     private PlayerManager playerManager;
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }   
+    
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
 
 
     public void OnJump(InputAction.CallbackContext ctx)
@@ -271,8 +286,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
         playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
+        
 
         if (playerManager.totalPlayers < 4)
         {
@@ -319,6 +335,7 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }
+            defaultX = characterSelect.transform.Find("Character").Find("Color Bars").Find("Red").transform.position.x;
 
             GenerateCharacterSelect(characterSelect, paletteColors);
         } else
@@ -656,6 +673,12 @@ public class PlayerController : MonoBehaviour
                             }
                         }
 
+                        if(defaultX2 == 0)
+                        {
+                            defaultX2 = character2Select.transform.Find("Character").Find("Color Bars").Find("Red").transform.position.x;
+                        }
+                         
+
                         GenerateCharacterSelect(character2Select, paletteColors2);
                     }
                 }
@@ -668,8 +691,13 @@ public class PlayerController : MonoBehaviour
             {
                 splitKeyboard = false;
                 p2Fireball = false;
+                p1Fireball = false;
 
-                playerManager.activePlayers--;
+                if(selectingState2 != 1)
+                {
+                    playerManager.activePlayers--;
+                }
+                selectingState2 = 0;
                 playerManager.totalPlayers--;
 
                 character2Select.transform.Find("Press Text").gameObject.SetActive(true);
@@ -831,6 +859,35 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        Color tileColor = (paletteColors[index].clothesL + paletteColors[index].bodyL + paletteColors[index].hairL) / 3;
+        Transform red = characterSelect.transform.Find("Character").Find("Color Bars").Find("Red");
+        Transform blue = characterSelect.transform.Find("Character").Find("Color Bars").Find("Blue");
+        Transform green = characterSelect.transform.Find("Character").Find("Color Bars").Find("Green");
+
+        if(characterSelect == character2Select)
+        {
+            red.position = new Vector3(defaultX2 + tileColor.r / 6.5f - 0.05f, red.transform.position.y, red.transform.position.z);
+            red.localScale = new Vector3(tileColor.r * 30, red.transform.localScale.y, red.transform.localScale.z);
+
+            blue.position = new Vector3(defaultX2 + tileColor.b / 6.5f - 0.05f, blue.transform.position.y, blue.transform.position.z);
+            blue.localScale = new Vector3(tileColor.b * 30, blue.transform.localScale.y, blue.transform.localScale.z);
+
+            green.position = new Vector3(defaultX2 + tileColor.g / 6.5f - 0.05f, green.transform.position.y, green.transform.position.z);
+            green.localScale = new Vector3(tileColor.g * 30, green.transform.localScale.y, green.transform.localScale.z);
+        }
+        else
+        {
+            red.position = new Vector3(defaultX + tileColor.r / 6.5f - 0.05f, red.transform.position.y, red.transform.position.z);
+            red.localScale = new Vector3(tileColor.r * 30, red.transform.localScale.y, red.transform.localScale.z);
+
+            blue.position = new Vector3(defaultX + tileColor.b / 6.5f - 0.05f, blue.transform.position.y, blue.transform.position.z);
+            blue.localScale = new Vector3(tileColor.b * 30, blue.transform.localScale.y, blue.transform.localScale.z);
+
+            green.position = new Vector3(defaultX + tileColor.g / 6.5f - 0.05f, green.transform.position.y, green.transform.position.z);
+            green.localScale = new Vector3(tileColor.g * 30, green.transform.localScale.y, green.transform.localScale.z);
+        }
+        
+
 
         characterSelect.transform.Find("Character").Find("Hair L").gameObject.GetComponent<SpriteRenderer>().color = paletteColors[index].hairL;
         characterSelect.transform.Find("Character").Find("Hair M").gameObject.GetComponent<SpriteRenderer>().color = paletteColors[index].hairM;
@@ -863,7 +920,19 @@ public class PlayerController : MonoBehaviour
 
         characterSelect.transform.Find("Colors").Find("Selection").localPosition = new Vector3(-0.12f + 0.09f * xLevel, 0.33f - 0.09f * yLevel, transform.localPosition.y);
     }
-    
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.buildIndex == 2)
+        {   
+            playerObject = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
+            if (splitKeyboard)
+            {
+                playerObject2 = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
+            }
+        }
+    }
+
     [System.Serializable]
     public class PaletteColor
     {

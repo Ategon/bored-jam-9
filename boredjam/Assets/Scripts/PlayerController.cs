@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private GameObject playerObject2;
     [SerializeField] private GameObject playerPrefab;
 
+    private bool inGame = false;
+
     [Header("Variables")]
     [SerializeField] private float defaultX;
     [SerializeField] private float defaultX2;
@@ -52,6 +54,8 @@ public class PlayerController : MonoBehaviour
     private int selectingState2 = 0;
 
     private PlayerManager playerManager;
+
+    private float health;
 
     void OnDestroy()
     {
@@ -361,357 +365,417 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (changeCooldown <= 0)
+        
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (selectingState != 1)
+            if (changeCooldown <= 0)
             {
-                if (p1Move.x > 0)
+                if (selectingState != 1)
                 {
-                    if (p1ColorSelectIndex == 3 || p1ColorSelectIndex == 7)
+                    if (p1Move.x > 0)
                     {
-                        p1ColorSelectIndex -= 3;
-                    }
-                    else
-                    {
-                        p1ColorSelectIndex += 1;
-                    }
-
-                    changeCooldown = 0.15f;
-                    GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
-
-
-                }
-                else if (p1Move.x < 0)
-                {
-                    if (p1ColorSelectIndex == 0 || p1ColorSelectIndex == 4)
-                    {
-                        p1ColorSelectIndex += 3;
-                    }
-                    else
-                    {
-                        p1ColorSelectIndex -= 1;
-                    }
-
-                    changeCooldown = 0.15f;
-                    GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
-
-
-                }
-
-                if (p1Move.y > 0 || p1Move.y < 0)
-                {
-                    if (p1ColorSelectIndex >= 4)
-                    {
-                        p1ColorSelectIndex -= 4;
-                    }
-                    else
-                    {
-                        p1ColorSelectIndex += 4;
-                    }
-
-                    changeCooldown = 0.15f;
-                    GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
-
-
-                }
-            }
-        } else
-        {
-            changeCooldown -= Time.deltaTime;
-        }
-
-        if (changeCooldown2 <= 0)
-        {
-            if (selectingState2 != 1)
-            {
-                if (p2Move.x > 0)
-                {
-                    if (p2ColorSelectIndex == 3 || p2ColorSelectIndex == 7)
-                    {
-                        p2ColorSelectIndex -= 3;
-                    }
-                    else
-                    {
-                        p2ColorSelectIndex += 1;
-                    }
-
-                    changeCooldown2 = 0.15f;
-                    GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
-
-
-                }
-                else if (p2Move.x < 0)
-                {
-                    if (p2ColorSelectIndex == 0 || p2ColorSelectIndex == 4)
-                    {
-                        p2ColorSelectIndex += 3;
-                    }
-                    else
-                    {
-                        p2ColorSelectIndex -= 1;
-                    }
-
-                    changeCooldown2 = 0.15f;
-                    GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
-
-
-                }
-
-                if (p2Move.y > 0 || p2Move.y < 0)
-                {
-                    if (p2ColorSelectIndex >= 4)
-                    {
-                        p2ColorSelectIndex -= 4;
-                    }
-                    else
-                    {
-                        p2ColorSelectIndex += 4;
-                    }
-
-                    changeCooldown2 = 0.15f;
-                    GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
-
-
-                }
-            }
-        }
-        else
-        {
-            changeCooldown2 -= Time.deltaTime;
-        }
-
-        if (p1Jump)
-        {
-            if (!jumpBuffer)
-            {
-                jumpBuffer = true;
-
-                switch (selectingState)
-                {
-                    case 0:
-                        if (p1ColorSelectIndex == 7)
+                        if (p1ColorSelectIndex == 3 || p1ColorSelectIndex == 7)
                         {
-                            p1ColorSelectIndex = 0;
-                            GenerateCharacterSelect(characterSelect, paletteColors);
+                            p1ColorSelectIndex -= 3;
                         }
                         else
                         {
-                            characterSelect.transform.Find("Colors").gameObject.SetActive(false);
-                            characterSelect.transform.Find("Player Tag").gameObject.SetActive(true);
-
-                            float H, S, V;
-                            Color.RGBToHSV((paletteColors[p1ColorSelectIndex].clothesL + paletteColors[p1ColorSelectIndex].bodyL + paletteColors[p1ColorSelectIndex].hairL) / 3, out H, out S, out V);
-                            if (V < 0.5f) V += 0.4f;
-
-                            characterSelect.transform.Find("Player Tag").gameObject.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(H, S, V);
-
-                            selectingState = 1;
-                            playerManager.activePlayers--;
+                            p1ColorSelectIndex += 1;
                         }
-                        break;
-                    case 1:
-                        if(playerManager.activePlayers == 0)
-                        {
-                            SceneManager.LoadScene(2);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } else
-        {
-            jumpBuffer = false;
-        }
 
-        if (p2Jump)
-        {
-            if (!jumpBuffer2)
-            {
-                jumpBuffer2 = true;
+                        changeCooldown = 0.15f;
+                        GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
 
-                switch (selectingState2)
-                {
-                    case 0:
-                        if (p2ColorSelectIndex == 7)
+
+                    }
+                    else if (p1Move.x < 0)
+                    {
+                        if (p1ColorSelectIndex == 0 || p1ColorSelectIndex == 4)
                         {
-                            p2ColorSelectIndex = 0;
-                            GenerateCharacterSelect(character2Select, paletteColors2);
+                            p1ColorSelectIndex += 3;
                         }
                         else
                         {
-                            character2Select.transform.Find("Colors").gameObject.SetActive(false);
-                            character2Select.transform.Find("Player Tag").gameObject.SetActive(true);
-
-                            float H, S, V;
-                            Color.RGBToHSV((paletteColors2[p2ColorSelectIndex].clothesL + paletteColors2[p2ColorSelectIndex].bodyL + paletteColors2[p2ColorSelectIndex].hairL) / 3, out H, out S, out V);
-                            V = 0.8f;
-
-                            character2Select.transform.Find("Player Tag").gameObject.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(H, S, V);
-
-                            selectingState2 = 1;
-                            playerManager.activePlayers--;
+                            p1ColorSelectIndex -= 1;
                         }
-                        break;
-                    case 1:
-                        if (playerManager.activePlayers == 0)
-                        {
-                            SceneManager.LoadScene(2);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        else
-        {
-            jumpBuffer2 = false;
-        }
 
-        if (p1Attack)
-        {
-            if (!attackBuffer)
-            {
-                attackBuffer = true;
+                        changeCooldown = 0.15f;
+                        GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
 
-                switch (selectingState)
-                {
-                    case 1:
-                        characterSelect.transform.Find("Colors").gameObject.SetActive(true);
-                        characterSelect.transform.Find("Player Tag").gameObject.SetActive(false);
 
-                        selectingState = 0;
-                        playerManager.activePlayers++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        else
-        {
-            attackBuffer = false;
-        }
+                    }
 
-        if (p2Attack)
-        {
-            if (!attackBuffer2)
-            {
-                attackBuffer2 = true;
-
-                switch (selectingState2)
-                {
-                    case 1:
-                        character2Select.transform.Find("Colors").gameObject.SetActive(true);
-                        character2Select.transform.Find("Player Tag").gameObject.SetActive(false);
-
-                        selectingState2 = 0;
-                        playerManager.activePlayers++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        else
-        {
-            attackBuffer2 = false;
-        }
-
-        if (p1Dash)
-        {
-            if (!splitKeyboard)
-            {
-                if (playerManager.totalPlayers < 4)
-                {
-                    if (playerInput.currentControlScheme == "Keyboard&Mouse")
+                    if (p1Move.y > 0 || p1Move.y < 0)
                     {
-                        splitKeyboard = true;
-                        p1Dash = false;
-
-                        playerManager.activePlayers++;
-                        playerManager.totalPlayers++;
-                        splitIndex = playerManager.totalPlayers - 1;
-                        characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[1];
-
-                        if (playerManager.overrideIndex != -1)
+                        if (p1ColorSelectIndex >= 4)
                         {
-                            switch (playerManager.overrideIndex + 1)
-                            {
-                                case 1:
-                                    character2Select = GameObject.Find("P1CharacterSelect");
-                                    break;
-                                case 2:
-                                    character2Select = GameObject.Find("P2CharacterSelect");
-                                    break;
-                                case 3:
-                                    character2Select = GameObject.Find("P3CharacterSelect");
-                                    break;
-                                case 4:
-                                    character2Select = GameObject.Find("P4CharacterSelect");
-                                    break;
-                            }
-
-                            playerManager.overrideIndex = -1;
-                        } else
+                            p1ColorSelectIndex -= 4;
+                        }
+                        else
                         {
-                            switch (playerManager.totalPlayers)
-                            {
-                                case 1:
-                                    character2Select = GameObject.Find("P1CharacterSelect");
-                                    break;
-                                case 2:
-                                    character2Select = GameObject.Find("P2CharacterSelect");
-                                    break;
-                                case 3:
-                                    character2Select = GameObject.Find("P3CharacterSelect");
-                                    break;
-                                case 4:
-                                    character2Select = GameObject.Find("P4CharacterSelect");
-                                    break;
-                            }
+                            p1ColorSelectIndex += 4;
                         }
 
-                        if(defaultX2 == 0)
+                        changeCooldown = 0.15f;
+                        GenerateSprite(p1ColorSelectIndex, characterSelect, paletteColors);
+
+
+                    }
+                }
+            } else
+            {
+                changeCooldown -= Time.deltaTime;
+            }
+
+            if (changeCooldown2 <= 0)
+            {
+                if (selectingState2 != 1)
+                {
+                    if (p2Move.x > 0)
+                    {
+                        if (p2ColorSelectIndex == 3 || p2ColorSelectIndex == 7)
                         {
-                            defaultX2 = character2Select.transform.Find("Character").Find("Color Bars").Find("Red").transform.position.x;
+                            p2ColorSelectIndex -= 3;
                         }
+                        else
+                        {
+                            p2ColorSelectIndex += 1;
+                        }
+
+                        changeCooldown2 = 0.15f;
+                        GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
+
+
+                    }
+                    else if (p2Move.x < 0)
+                    {
+                        if (p2ColorSelectIndex == 0 || p2ColorSelectIndex == 4)
+                        {
+                            p2ColorSelectIndex += 3;
+                        }
+                        else
+                        {
+                            p2ColorSelectIndex -= 1;
+                        }
+
+                        changeCooldown2 = 0.15f;
+                        GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
+
+
+                    }
+
+                    if (p2Move.y > 0 || p2Move.y < 0)
+                    {
+                        if (p2ColorSelectIndex >= 4)
+                        {
+                            p2ColorSelectIndex -= 4;
+                        }
+                        else
+                        {
+                            p2ColorSelectIndex += 4;
+                        }
+
+                        changeCooldown2 = 0.15f;
+                        GenerateSprite(p2ColorSelectIndex, character2Select, paletteColors2);
+
+
+                    }
+                }
+            }
+            else
+            {
+                changeCooldown2 -= Time.deltaTime;
+            }
+
+            if (p1Jump)
+            {
+                if (!jumpBuffer)
+                {
+                    jumpBuffer = true;
+
+                    switch (selectingState)
+                    {
+                        case 0:
+                            if (p1ColorSelectIndex == 7)
+                            {
+                                p1ColorSelectIndex = 0;
+                                GenerateCharacterSelect(characterSelect, paletteColors);
+                            }
+                            else
+                            {
+                                characterSelect.transform.Find("Colors").gameObject.SetActive(false);
+                                characterSelect.transform.Find("Player Tag").gameObject.SetActive(true);
+
+                                float H, S, V;
+                                Color.RGBToHSV((paletteColors[p1ColorSelectIndex].clothesL + paletteColors[p1ColorSelectIndex].bodyL + paletteColors[p1ColorSelectIndex].hairL) / 3, out H, out S, out V);
+                                if (V < 0.5f) V += 0.4f;
+
+                                characterSelect.transform.Find("Player Tag").gameObject.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(H, S, V);
+
+                                selectingState = 1;
+                                playerManager.activePlayers--;
+                            }
+                            break;
+                        case 1:
+                            if(playerManager.activePlayers == 0)
+                            {
+                                SceneManager.LoadScene(2);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            } else
+            {
+                jumpBuffer = false;
+            }
+
+            if (p2Jump)
+            {
+                if (!jumpBuffer2)
+                {
+                    jumpBuffer2 = true;
+
+                    switch (selectingState2)
+                    {
+                        case 0:
+                            if (p2ColorSelectIndex == 7)
+                            {
+                                p2ColorSelectIndex = 0;
+                                GenerateCharacterSelect(character2Select, paletteColors2);
+                            }
+                            else
+                            {
+                                character2Select.transform.Find("Colors").gameObject.SetActive(false);
+                                character2Select.transform.Find("Player Tag").gameObject.SetActive(true);
+
+                                float H, S, V;
+                                Color.RGBToHSV((paletteColors2[p2ColorSelectIndex].clothesL + paletteColors2[p2ColorSelectIndex].bodyL + paletteColors2[p2ColorSelectIndex].hairL) / 3, out H, out S, out V);
+                                V = 0.8f;
+
+                                character2Select.transform.Find("Player Tag").gameObject.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(H, S, V);
+
+                                selectingState2 = 1;
+                                playerManager.activePlayers--;
+                            }
+                            break;
+                        case 1:
+                            if (playerManager.activePlayers == 0)
+                            {
+                                SceneManager.LoadScene(2);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                jumpBuffer2 = false;
+            }
+
+            if (p1Attack)
+            {
+                if (!attackBuffer)
+                {
+                    attackBuffer = true;
+
+                    switch (selectingState)
+                    {
+                        case 1:
+                            characterSelect.transform.Find("Colors").gameObject.SetActive(true);
+                            characterSelect.transform.Find("Player Tag").gameObject.SetActive(false);
+
+                            selectingState = 0;
+                            playerManager.activePlayers++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                attackBuffer = false;
+            }
+
+            if (p2Attack)
+            {
+                if (!attackBuffer2)
+                {
+                    attackBuffer2 = true;
+
+                    switch (selectingState2)
+                    {
+                        case 1:
+                            character2Select.transform.Find("Colors").gameObject.SetActive(true);
+                            character2Select.transform.Find("Player Tag").gameObject.SetActive(false);
+
+                            selectingState2 = 0;
+                            playerManager.activePlayers++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                attackBuffer2 = false;
+            }
+
+            if (p1Dash)
+            {
+                if (!splitKeyboard)
+                {
+                    if (playerManager.totalPlayers < 4)
+                    {
+                        if (playerInput.currentControlScheme == "Keyboard&Mouse")
+                        {
+                            splitKeyboard = true;
+                            p1Dash = false;
+
+                            playerManager.activePlayers++;
+                            playerManager.totalPlayers++;
+                            splitIndex = playerManager.totalPlayers - 1;
+                            characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[1];
+
+                            if (playerManager.overrideIndex != -1)
+                            {
+                                switch (playerManager.overrideIndex + 1)
+                                {
+                                    case 1:
+                                        character2Select = GameObject.Find("P1CharacterSelect");
+                                        break;
+                                    case 2:
+                                        character2Select = GameObject.Find("P2CharacterSelect");
+                                        break;
+                                    case 3:
+                                        character2Select = GameObject.Find("P3CharacterSelect");
+                                        break;
+                                    case 4:
+                                        character2Select = GameObject.Find("P4CharacterSelect");
+                                        break;
+                                }
+
+                                playerManager.overrideIndex = -1;
+                            } else
+                            {
+                                switch (playerManager.totalPlayers)
+                                {
+                                    case 1:
+                                        character2Select = GameObject.Find("P1CharacterSelect");
+                                        break;
+                                    case 2:
+                                        character2Select = GameObject.Find("P2CharacterSelect");
+                                        break;
+                                    case 3:
+                                        character2Select = GameObject.Find("P3CharacterSelect");
+                                        break;
+                                    case 4:
+                                        character2Select = GameObject.Find("P4CharacterSelect");
+                                        break;
+                                }
+                            }
+
+                            if(defaultX2 == 0)
+                            {
+                                defaultX2 = character2Select.transform.Find("Character").Find("Color Bars").Find("Red").transform.position.x;
+                            }
                          
 
-                        GenerateCharacterSelect(character2Select, paletteColors2);
+                            GenerateCharacterSelect(character2Select, paletteColors2);
+                        }
                     }
                 }
             }
-        }
 
-        if (p1Fireball || p2Fireball)
-        {
-            if (splitKeyboard)
+            if (p1Fireball || p2Fireball)
             {
-                splitKeyboard = false;
-                p2Fireball = false;
-                p1Fireball = false;
-
-                if(selectingState2 != 1)
+                if (splitKeyboard)
                 {
-                    playerManager.activePlayers--;
+                    splitKeyboard = false;
+                    p2Fireball = false;
+                    p1Fireball = false;
+
+                    if(selectingState2 != 1)
+                    {
+                        playerManager.activePlayers--;
+                    }
+                    selectingState2 = 0;
+                    playerManager.totalPlayers--;
+
+                    character2Select.transform.Find("Press Text").gameObject.SetActive(true);
+                    character2Select.transform.Find("Character").gameObject.SetActive(false);
+                    character2Select.transform.Find("Colors").gameObject.SetActive(false);
+
+                    character2Select.transform.Find("Controls").gameObject.SetActive(false);
+                    character2Select.transform.Find("Player Tag").gameObject.SetActive(false);
+
+                    characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[0];
+
+                    playerManager.overrideIndex = splitIndex;
                 }
-                selectingState2 = 0;
-                playerManager.totalPlayers--;
-
-                character2Select.transform.Find("Press Text").gameObject.SetActive(true);
-                character2Select.transform.Find("Character").gameObject.SetActive(false);
-                character2Select.transform.Find("Colors").gameObject.SetActive(false);
-
-                character2Select.transform.Find("Controls").gameObject.SetActive(false);
-                character2Select.transform.Find("Player Tag").gameObject.SetActive(false);
-
-                characterSelect.transform.Find("Controls").gameObject.GetComponent<SpriteRenderer>().sprite = controlsSprites[0];
-
-                playerManager.overrideIndex = splitIndex;
             }
-        } 
+        } else if (inGame)
+        {
+            RunManager runManager = GameObject.Find("Run Manager").GetComponent<RunManager>();
+
+            float red = paletteColors[p1ColorSelectIndex].hairL.r;
+            float green = paletteColors[p1ColorSelectIndex].hairL.g;
+            float blue = paletteColors[p1ColorSelectIndex].hairL.b;
+
+            if (runManager.currentStation.targetRed == 1f)
+            {
+                red += 0.01f * Time.deltaTime;
+            }
+            else
+            {
+                red -= 0.01f * Time.deltaTime;
+            }
+
+            if (runManager.currentStation.targetBlue == 1f)
+            {
+                blue += 0.01f * Time.deltaTime;
+            }
+            else
+            {
+                blue -= 0.01f * Time.deltaTime;
+            }
+
+            if (runManager.currentStation.targetGreen == 1f)
+            {
+                green += 0.01f * Time.deltaTime;
+            }
+            else
+            {
+                green -= 0.01f*Time.deltaTime;
+            }
+
+            red = Mathf.Clamp(red, 0, 1);
+            green = Mathf.Clamp(green, 0, 1);
+            blue = Mathf.Clamp(blue, 0, 1);
+
+            float H, S, V;
+            Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+
+            int direction;
+            if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+            else direction = -1;
+
+            paletteColors[p1ColorSelectIndex].hairM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+            paletteColors[p1ColorSelectIndex].hairD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+            paletteColors[p1ColorSelectIndex].hairE = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
+
+            paletteColors[p1ColorSelectIndex].hairL = new Color(red, green, blue);
+            Debug.Log(paletteColors[p1ColorSelectIndex].hairM);
+
+            GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+        }
     }
 
     public void GenerateCharacterSelect(GameObject characterSelect, List<PaletteColor> paletteColors)
@@ -934,6 +998,8 @@ public class PlayerController : MonoBehaviour
                 playerObject2 = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
                 GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
             }
+
+            inGame = true;
         }
     }
 

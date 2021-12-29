@@ -18,7 +18,7 @@ public class AudioVolume : MonoBehaviour
 
     void Start()
     {
-        persistingData = GameObject.Find("PersistingData").GetComponent<PersistingData>();
+        persistingData = GameObject.Find("Persisting Data").GetComponent<PersistingData>();
         audioSource = GetComponent<AudioSource>();
 
         switch (audioType)

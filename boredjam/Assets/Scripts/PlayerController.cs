@@ -768,6 +768,7 @@ public class PlayerController : MonoBehaviour
             newColor.clothesM = Color.HSVToRGB(colorValues[0] + (0.05f * direction), colorValues[1] - 0.05f, colorValues[2] - 0.1f);
             newColor.clothesD = Color.HSVToRGB(colorValues[0] + (0.1f * direction), colorValues[1] - 0.1f, colorValues[2] - 0.2f);
             newColor.clothesDD = Color.HSVToRGB(colorValues[0] + (0.15f * direction), colorValues[1] - 0.15f, colorValues[2] - 0.3f);
+            newColor.clothesDDD = Color.HSVToRGB(colorValues[0] + (0.2f * direction), colorValues[1] - 0.2f, colorValues[2] - 0.4f);
 
             // Misc
             colorValues[0] = Random.Range(0, 1f);
@@ -926,11 +927,31 @@ public class PlayerController : MonoBehaviour
         if(scene.buildIndex == 2)
         {   
             playerObject = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
+            GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+
             if (splitKeyboard)
             {
                 playerObject2 = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
+                GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
             }
         }
+    }
+
+    void GenerateRunningSprite(GameObject player, PaletteColor palette)
+    {
+        player.transform.Find("Hair M").gameObject.GetComponent<SpriteRenderer>().color = palette.hairM;
+        player.transform.Find("Hair D").gameObject.GetComponent<SpriteRenderer>().color = palette.hairD;
+        player.transform.Find("Hair Eyes").gameObject.GetComponent<SpriteRenderer>().color = palette.hairE;
+
+        player.transform.Find("Body").gameObject.GetComponent<SpriteRenderer>().color = palette.bodyL;
+        player.transform.Find("Body (1)").gameObject.GetComponent<SpriteRenderer>().color = palette.bodyM;
+        player.transform.Find("Body (2)").gameObject.GetComponent<SpriteRenderer>().color = palette.bodyD;
+
+        player.transform.Find("Clothes").gameObject.GetComponent<SpriteRenderer>().color = palette.clothesL;
+        player.transform.Find("Clothes (1)").gameObject.GetComponent<SpriteRenderer>().color = palette.clothesM;
+        player.transform.Find("Clothes (2)").gameObject.GetComponent<SpriteRenderer>().color = palette.clothesD;
+        player.transform.Find("Clothes (3)").gameObject.GetComponent<SpriteRenderer>().color = palette.clothesDD;
+        player.transform.Find("Clothes (4)").gameObject.GetComponent<SpriteRenderer>().color = palette.clothesDDD;
     }
 
     [System.Serializable]
@@ -947,6 +968,7 @@ public class PlayerController : MonoBehaviour
         public Color clothesM;
         public Color clothesD;
         public Color clothesDD;
+        public Color clothesDDD;
         public Color miscL;
         public Color miscD;
     }

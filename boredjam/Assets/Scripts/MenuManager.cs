@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
-        persistingData = GameObject.Find("PersistingData").GetComponent<PersistingData>();
+        persistingData = GameObject.Find("Persisting Data").GetComponent<PersistingData>();
         sliders[0].value = persistingData.MasterVolume;
         sliders[1].value = persistingData.SoundtracksVolume;
         sliders[2].value = persistingData.SfxVolume;

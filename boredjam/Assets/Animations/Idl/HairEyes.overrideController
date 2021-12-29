@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HairEyes
-  m_Controller: {fileID: 9100000, guid: 9900634450cb8d34eacda2bd22440b95, type: 2}
+  m_Controller: {fileID: 9100000, guid: d54144796fd5b4d45a0af37826887984, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 32a6ba4254c937b4fb75c6d0193b60bd, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: afdf62f6328ef3d4c9768c7644e3fdec, type: 2}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5178748698080551113}
   - component: {fileID: 5484429630711945877}
   - component: {fileID: 1286800686437479635}
+  - component: {fileID: 4930134964123152775}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -378,7 +379,10 @@ MonoBehaviour:
   - {fileID: 1749735056, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
   - {fileID: 676174020, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
   - {fileID: -1908403876, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
+  collisionScript: {fileID: 0}
   playerPrefab: {fileID: 4209273183163933238, guid: d40f21ba17e15284eb34ab8b599b0168, type: 3}
+  defaultX: 0
+  defaultX2: 0
   splitKeyboard: 0
   escape: 0
   p1Jump: 0
@@ -395,3 +399,18 @@ MonoBehaviour:
   p2ColorSelectIndex: 0
   paletteColors: []
   paletteColors2: []
+  jumpSpeed: 5
+  jumpCoyoteTimer: 0
+  preJumpTimer: 0
+--- !u!114 &4930134964123152775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178748698080551112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed32639aa1bcfb438c98d5ee4e41b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

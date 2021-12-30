@@ -10,7 +10,7 @@ public class RunManager : MonoBehaviour
     [SerializeField] private float highscore;
     [SerializeField] private float distance;
     private bool alive = true;
-    private int stationNum = 1;
+    public int stationNum = 1;
     private int lastStation = 0;
     private int secondlastStation = 0;
     public Station currentStation;
@@ -56,7 +56,7 @@ public class RunManager : MonoBehaviour
 
             distanceText.text = "" + distance.ToString("F1") + "m";
 
-            if (distance > 5 * stationNum)
+            if (distance > 25 * stationNum)
             {
                 int newStation = lastStation;
 

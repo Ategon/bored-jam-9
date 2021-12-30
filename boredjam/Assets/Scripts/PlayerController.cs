@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject[] colorTiles;
     [SerializeField] private Sprite[] controlsSprites;
+    [SerializeField] private Collision collisionScript;
 
     private GameObject characterSelect;
     private GameObject character2Select;
@@ -25,8 +26,18 @@ public class PlayerController : MonoBehaviour
     private GameObject playerObject;
     private GameObject playerObject2;
     [SerializeField] private GameObject playerPrefab;
+    private bool notFirst = false;
 
     private bool inGame = false;
+
+
+    private float healAmount;
+    private float movementAmount;
+    private float dashingAmount;
+
+    [SerializeField] private float maxMovementSpeed;
+    [SerializeField] private float movementSpeed;
+
 
     [Header("Variables")]
     [SerializeField] private float defaultX;
@@ -56,6 +67,12 @@ public class PlayerController : MonoBehaviour
     private PlayerManager playerManager;
 
     private float health;
+
+    [SerializeField] private float jumpSpeed;
+    [SerializeField] private float jumpCoyoteTimer;
+    [SerializeField] private float preJumpTimer;
+    private float jumpTimer;
+    private bool waitJump = true;
 
     void OnDestroy()
     {
@@ -722,59 +739,383 @@ public class PlayerController : MonoBehaviour
             }
         } else if (inGame)
         {
+            float shiftingAmount = 0.005f;
             RunManager runManager = GameObject.Find("Run Manager").GetComponent<RunManager>();
 
-            float red = paletteColors[p1ColorSelectIndex].hairL.r;
-            float green = paletteColors[p1ColorSelectIndex].hairL.g;
-            float blue = paletteColors[p1ColorSelectIndex].hairL.b;
-
-            if (runManager.currentStation.targetRed == 1f)
+            if (runManager.stationNum != 1)
             {
-                red += 0.01f * Time.deltaTime;
+                float red = paletteColors[p1ColorSelectIndex].hairL.r;
+                float green = paletteColors[p1ColorSelectIndex].hairL.g;
+                float blue = paletteColors[p1ColorSelectIndex].hairL.b;
+
+                if (runManager.currentStation.targetRed == 1f)
+                {
+                    red += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    red -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetBlue == 1f)
+                {
+                    blue += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    blue -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetGreen == 1f)
+                {
+                    green += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    green -= shiftingAmount * Time.deltaTime;
+                }
+
+                red = Mathf.Clamp(red, 0, 1);
+                green = Mathf.Clamp(green, 0, 1);
+                blue = Mathf.Clamp(blue, 0, 1);
+
+                float H, S, V;
+                Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+
+                int direction;
+                if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                else direction = -1;
+
+                paletteColors[p1ColorSelectIndex].hairM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                paletteColors[p1ColorSelectIndex].hairD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+                paletteColors[p1ColorSelectIndex].hairE = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
+
+                paletteColors[p1ColorSelectIndex].hairL = new Color(red, green, blue);
+
+                red = paletteColors[p1ColorSelectIndex].bodyL.r;
+                green = paletteColors[p1ColorSelectIndex].bodyL.g;
+                blue = paletteColors[p1ColorSelectIndex].bodyL.b;
+
+                if (runManager.currentStation.targetRed == 1f)
+                {
+                    red += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    red -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetBlue == 1f)
+                {
+                    blue += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    blue -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetGreen == 1f)
+                {
+                    green += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    green -= shiftingAmount * Time.deltaTime;
+                }
+
+                red = Mathf.Clamp(red, 0, 1);
+                green = Mathf.Clamp(green, 0, 1);
+                blue = Mathf.Clamp(blue, 0, 1);
+
+                Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+                if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                else direction = -1;
+
+                paletteColors[p1ColorSelectIndex].bodyM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                paletteColors[p1ColorSelectIndex].bodyD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+
+                paletteColors[p1ColorSelectIndex].bodyL = new Color(red, green, blue);
+
+
+
+                red = paletteColors[p1ColorSelectIndex].clothesL.r;
+                green = paletteColors[p1ColorSelectIndex].clothesL.g;
+                blue = paletteColors[p1ColorSelectIndex].clothesL.b;
+
+                if (runManager.currentStation.targetRed == 1f)
+                {
+                    red += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    red -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetBlue == 1f)
+                {
+                    blue += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    blue -= shiftingAmount * Time.deltaTime;
+                }
+
+                if (runManager.currentStation.targetGreen == 1f)
+                {
+                    green += shiftingAmount * Time.deltaTime;
+                }
+                else
+                {
+                    green -= shiftingAmount * Time.deltaTime;
+                }
+
+                red = Mathf.Clamp(red, 0, 1);
+                green = Mathf.Clamp(green, 0, 1);
+                blue = Mathf.Clamp(blue, 0, 1);
+
+                Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+                if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                else direction = -1;
+
+                paletteColors[p1ColorSelectIndex].clothesM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                paletteColors[p1ColorSelectIndex].clothesD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+                paletteColors[p1ColorSelectIndex].clothesDD = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
+                paletteColors[p1ColorSelectIndex].clothesDDD = Color.HSVToRGB(H + (0.2f * direction), S - 0.2f, V - 0.4f);
+
+                paletteColors[p1ColorSelectIndex].clothesL = new Color(red, green, blue);
+
+                GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+
+
+
+
+
+                if (splitKeyboard)
+                {
+                    red = paletteColors2[p2ColorSelectIndex].hairL.r;
+                    green = paletteColors2[p2ColorSelectIndex].hairL.g;
+                    blue = paletteColors2[p2ColorSelectIndex].hairL.b;
+
+                    if (runManager.currentStation.targetRed == 1f)
+                    {
+                        red += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        red -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetBlue == 1f)
+                    {
+                        blue += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        blue -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetGreen == 1f)
+                    {
+                        green += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        green -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    red = Mathf.Clamp(red, 0, 1);
+                    green = Mathf.Clamp(green, 0, 1);
+                    blue = Mathf.Clamp(blue, 0, 1);
+
+                    Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+                    if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                    else direction = -1;
+
+                    paletteColors2[p2ColorSelectIndex].hairM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                    paletteColors2[p2ColorSelectIndex].hairD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+                    paletteColors2[p2ColorSelectIndex].hairE = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
+
+                    paletteColors2[p2ColorSelectIndex].hairL = new Color(red, green, blue);
+
+                    red = paletteColors2[p2ColorSelectIndex].bodyL.r;
+                    green = paletteColors2[p2ColorSelectIndex].bodyL.g;
+                    blue = paletteColors2[p2ColorSelectIndex].bodyL.b;
+
+                    if (runManager.currentStation.targetRed == 1f)
+                    {
+                        red += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        red -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetBlue == 1f)
+                    {
+                        blue += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        blue -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetGreen == 1f)
+                    {
+                        green += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        green -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    red = Mathf.Clamp(red, 0, 1);
+                    green = Mathf.Clamp(green, 0, 1);
+                    blue = Mathf.Clamp(blue, 0, 1);
+
+                    Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+                    if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                    else direction = -1;
+
+                    paletteColors2[p2ColorSelectIndex].bodyM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                    paletteColors2[p2ColorSelectIndex].bodyD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+
+                    paletteColors2[p2ColorSelectIndex].bodyL = new Color(red, green, blue);
+
+
+
+                    red = paletteColors2[p2ColorSelectIndex].clothesL.r;
+                    green = paletteColors2[p2ColorSelectIndex].clothesL.g;
+                    blue = paletteColors2[p2ColorSelectIndex].clothesL.b;
+
+                    if (runManager.currentStation.targetRed == 1f)
+                    {
+                        red += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        red -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetBlue == 1f)
+                    {
+                        blue += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        blue -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    if (runManager.currentStation.targetGreen == 1f)
+                    {
+                        green += shiftingAmount * Time.deltaTime;
+                    }
+                    else
+                    {
+                        green -= shiftingAmount * Time.deltaTime;
+                    }
+
+                    red = Mathf.Clamp(red, 0, 1);
+                    green = Mathf.Clamp(green, 0, 1);
+                    blue = Mathf.Clamp(blue, 0, 1);
+
+                    Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+
+                    if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
+                    else direction = -1;
+
+                    paletteColors2[p2ColorSelectIndex].clothesM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
+                    paletteColors2[p2ColorSelectIndex].clothesD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
+                    paletteColors2[p2ColorSelectIndex].clothesDD = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
+                    paletteColors2[p2ColorSelectIndex].clothesDDD = Color.HSVToRGB(H + (0.2f * direction), S - 0.2f, V - 0.4f);
+
+                    paletteColors2[p2ColorSelectIndex].clothesL = new Color(red, green, blue);
+
+                    GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
+                }
             }
-            else
+
+            //playerObject.GetComponent<Rigidbody2D>().MovePosition(playerObject.transform.position + Vector3.right * p1Move.x * Time.deltaTime * 1 * 1);
+
+            if (splitKeyboard)
             {
-                red -= 0.01f * Time.deltaTime;
+                playerObject2.GetComponent<Rigidbody2D>().MovePosition(playerObject2.transform.position + Vector3.right * p2Move.x * Time.deltaTime * 1 * 1);
             }
 
-            if (runManager.currentStation.targetBlue == 1f)
+            //Moving
+            var direction = new Vector3(inputHandler.MovementInput, 0f);
+            playerObject.GetComponent<Rigidbody2D>().AddForce(direction * movementSpeed);
+
+            if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed)
             {
-                blue += 0.01f * Time.deltaTime;
+                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed, playerObject.GetComponent<Rigidbody2D>().velocity.y);
             }
-            else
+            if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed)
             {
-                blue -= 0.01f * Time.deltaTime;
+                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed, playerObject.GetComponent<Rigidbody2D>().velocity.y);
             }
 
-            if (runManager.currentStation.targetGreen == 1f)
+            //JUMPING [>A
+            jumpCoyoteTimer -= Time.deltaTime;
+            preJumpTimer -= Time.deltaTime;
+
+            if (jumpTimer > 0)
+                if (waitJump == true)
+                    jumpTimer = 0;
+                else
+                    jumpTimer -= Time.deltaTime;
+            else if (jumpTimer < 0)
             {
-                green += 0.01f * Time.deltaTime;
+                waitJump = true;
+                jumpTimer = 0;
             }
-            else
+
+            if (!playerObject.GetComponent<Collision>().onGround)
             {
-                green -= 0.01f*Time.deltaTime;
+                waitJump = true;
             }
 
-            red = Mathf.Clamp(red, 0, 1);
-            green = Mathf.Clamp(green, 0, 1);
-            blue = Mathf.Clamp(blue, 0, 1);
+            if (playerObject.GetComponent<Collision>().onGround)
+            {
+                jumpCoyoteTimer = 0.1f;
+            }
 
-            float H, S, V;
-            Color.RGBToHSV(new Color(red, green, blue, 1.0F), out H, out S, out V);
+            if (p1Jump)
+            {
+                preJumpTimer = 0.1f;
+            }
+
+            if (preJumpTimer > 0 && jumpCoyoteTimer > 0 && waitJump)
+            {
+                jumpCoyoteTimer = 0;
+                preJumpTimer = 0;
+                waitJump = false;
+                jumpTimer = 0.30f;
+                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(playerObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed;
+
+                
+            }
+
+            float fallMultiplier = 2.5f;
+            float lowJumpMultiplier = 2f;
+
+            if (playerObject.GetComponent<Rigidbody2D>().velocity.y< 0)
+            {
+                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up* Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            }
+            else if (playerObject.GetComponent<Rigidbody2D>().velocity.y > 0 && !p1Jump)
+            {
+                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up* Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+            }
+
+             Debug.Log(playerObject.GetComponent<Rigidbody2D>().velocity);
 
 
-            int direction;
-            if (H >= 0.16666666666f && H <= 0.72222222222) direction = 1;
-            else direction = -1;
-
-            paletteColors[p1ColorSelectIndex].hairM = Color.HSVToRGB(H + (0.05f * direction), S - 0.05f, V - 0.1f);
-            paletteColors[p1ColorSelectIndex].hairD = Color.HSVToRGB(H + (0.1f * direction), S - 0.1f, V - 0.2f);
-            paletteColors[p1ColorSelectIndex].hairE = Color.HSVToRGB(H + (0.15f * direction), S - 0.15f, V - 0.3f);
-
-            paletteColors[p1ColorSelectIndex].hairL = new Color(red, green, blue);
-            Debug.Log(paletteColors[p1ColorSelectIndex].hairM);
-
-            GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
         }
     }
 

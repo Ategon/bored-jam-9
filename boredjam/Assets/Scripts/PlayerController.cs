@@ -1063,6 +1063,9 @@ public class PlayerController : MonoBehaviour
             movementAmount = combinedColors.r;
             dashingAmount = combinedColors.b;
 
+            playerObject.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors;
+            playerObject.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors;
+
             if (splitKeyboard)
             {
 
@@ -1071,6 +1074,9 @@ public class PlayerController : MonoBehaviour
                 healAmount2 = combinedColors2.g;
                 movementAmount2 = combinedColors2.r;
                 dashingAmount2 = combinedColors2.b;
+
+                playerObject2.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors2;
+                playerObject2.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors2;
             }
 
             //playerObject.GetComponent<Rigidbody2D>().MovePosition(playerObject.transform.position + Vector3.right * p1Move.x * Time.deltaTime * 1 * 1);
@@ -1080,7 +1086,7 @@ public class PlayerController : MonoBehaviour
             playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount/2 + 0.7f));
 
             float maxMovementSpeed2 = maxMovementSpeed;
-            if (dashTimer > 4.9f - (0.2f * dashingAmount)) maxMovementSpeed2 += 4f;
+            if (dashTimer > (5f - (2.5f * (1 - dashingAmount)) - 0.1f) - (0.2f * dashingAmount)) maxMovementSpeed2 += 4f;
 
             if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
             {
@@ -1097,7 +1103,7 @@ public class PlayerController : MonoBehaviour
                 playerObject2.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount2 / 2 + 0.7f));
 
                 maxMovementSpeed2 = maxMovementSpeed;
-                if (dashTimer2 > 4.9f - (0.2f * dashingAmount2)) maxMovementSpeed2 += 4f;
+                if (dashTimer2 > (5f - (2.5f * (1 - dashingAmount2)) - 0.1f) - (0.2f * dashingAmount2)) maxMovementSpeed2 += 4f;
 
                 if (playerObject2.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
                 {
@@ -1230,8 +1236,6 @@ public class PlayerController : MonoBehaviour
                 {
                     playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
                 }
-
-                Debug.Log(playerObject2.GetComponent<Rigidbody2D>().velocity);
             }
 
 
@@ -1243,7 +1247,25 @@ public class PlayerController : MonoBehaviour
                 dashBuffer = false;
             }
 
-            if(dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
+            if(dashTimer > 0)
+            {
+                playerObject.transform.Find("Dash Indicator").gameObject.SetActive(false);
+            } 
+            else
+            {
+                playerObject.transform.Find("Dash Indicator").gameObject.SetActive(true);
+            }
+
+            if (dashTimer2 > 0)
+            {
+                playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(false);
+            }
+            else
+            {
+                playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(true);
+            }
+
+            if (dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
             {
                 dashTimer = 5f - (2.5f * (1-dashingAmount));
                 dashBuffer = true;

@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool escapeBuffer = false;
     private bool jumpBuffer = true;
     private bool attackBuffer = true;
+    private float dashTimer;
+    private bool dashBuffer;
 
     private float changeCooldown2 = 0;
     private bool escapeBuffer2 = false;
@@ -1047,16 +1049,19 @@ public class PlayerController : MonoBehaviour
             }
 
             //Moving
-            var direction = new Vector3(inputHandler.MovementInput, 0f);
-            playerObject.GetComponent<Rigidbody2D>().AddForce(direction * movementSpeed);
+            var direction2 = new Vector3(p1Move.x, 0f);
+            playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed);
 
-            if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed)
+            float maxMovementSpeed2 = maxMovementSpeed;
+            if (dashTimer > 4.8) maxMovementSpeed2 += 4f;
+
+            if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
             {
-                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
             }
-            if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed)
+            if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed2)
             {
-                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
             }
 
             //JUMPING [>A
@@ -1087,10 +1092,16 @@ public class PlayerController : MonoBehaviour
             if (p1Jump)
             {
                 preJumpTimer = 0.1f;
+            } 
+            else
+            {
+                jumpBuffer = false;
             }
 
-            if (preJumpTimer > 0 && jumpCoyoteTimer > 0 && waitJump)
+
+            if (preJumpTimer > 0 && jumpCoyoteTimer > 0 && waitJump && !jumpBuffer)
             {
+                jumpBuffer = true;
                 jumpCoyoteTimer = 0;
                 preJumpTimer = 0;
                 waitJump = false;
@@ -1113,7 +1124,31 @@ public class PlayerController : MonoBehaviour
                 playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up* Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
 
-             Debug.Log(playerObject.GetComponent<Rigidbody2D>().velocity);
+
+            //dashing
+            dashTimer -= Time.deltaTime;
+
+            if (!p1Dash)
+            {
+                dashBuffer = false;
+            }
+
+            if(dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
+            {
+                dashTimer = 5f;
+                dashBuffer = true;
+
+                if(p1Move.x > 0)
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                    playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.right * 4;
+                } 
+                else
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                    playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.right * -4;
+                }
+            }
 
 
         }

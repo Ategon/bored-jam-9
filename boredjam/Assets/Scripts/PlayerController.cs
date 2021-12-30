@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private bool attackBuffer = true;
     private float dashTimer;
     private bool dashBuffer;
+    private float dashTimer2;
+    private bool dashBuffer2;
 
     private float changeCooldown2 = 0;
     private bool escapeBuffer2 = false;
@@ -81,6 +83,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float preJumpTimer;
     private float jumpTimer;
     private bool waitJump = true;
+
+    [SerializeField] private float jumpCoyoteTimer2;
+    [SerializeField] private float preJumpTimer2;
+    private float jumpTimer2;
+    private bool waitJump2 = true;
 
     void OnDestroy()
     {
@@ -1068,11 +1075,6 @@ public class PlayerController : MonoBehaviour
 
             //playerObject.GetComponent<Rigidbody2D>().MovePosition(playerObject.transform.position + Vector3.right * p1Move.x * Time.deltaTime * 1 * 1);
 
-            if (splitKeyboard)
-            {
-                playerObject2.GetComponent<Rigidbody2D>().MovePosition(playerObject2.transform.position + Vector3.right * p2Move.x * Time.deltaTime * 1 * 1);
-            }
-
             //Moving
             var direction2 = new Vector3(p1Move.x, 0f);
             playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount/2 + 0.7f));
@@ -1087,6 +1089,24 @@ public class PlayerController : MonoBehaviour
             if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed2)
             {
                 playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+            }
+
+            if (splitKeyboard)
+            {
+                direction2 = new Vector3(p2Move.x, 0f);
+                playerObject2.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount2 / 2 + 0.7f));
+
+                maxMovementSpeed2 = maxMovementSpeed;
+                if (dashTimer2 > 4.9f - (0.2f * dashingAmount2)) maxMovementSpeed2 += 4f;
+
+                if (playerObject2.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
+                {
+                    playerObject2.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed2, playerObject2.GetComponent<Rigidbody2D>().velocity.y);
+                }
+                if (playerObject2.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed2)
+                {
+                    playerObject2.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed2, playerObject2.GetComponent<Rigidbody2D>().velocity.y);
+                }
             }
 
             //JUMPING [>A
@@ -1150,6 +1170,71 @@ public class PlayerController : MonoBehaviour
             }
 
 
+            if (splitKeyboard)
+            {
+                jumpCoyoteTimer2 -= Time.deltaTime;
+                preJumpTimer2 -= Time.deltaTime;
+
+                if (jumpTimer2 > 0)
+                    if (waitJump2 == true)
+                        jumpTimer2 = 0;
+                    else
+                        jumpTimer2 -= Time.deltaTime;
+                else if (jumpTimer2 < 0)
+                {
+                    waitJump2 = true;
+                    jumpTimer2 = 0;
+                }
+
+                if (!playerObject2.GetComponent<Collision>().onGround)
+                {
+                    waitJump2 = true;
+                }
+
+                if (playerObject2.GetComponent<Collision>().onGround)
+                {
+                    jumpCoyoteTimer2 = 0.1f;
+                }
+
+                if (p2Jump)
+                {
+                    preJumpTimer2 = 0.1f;
+                }
+                else
+                {
+                    jumpBuffer2 = false;
+                }
+
+
+                if (preJumpTimer2 > 0 && jumpCoyoteTimer2 > 0 && waitJump2 && !jumpBuffer2)
+                {
+                    jumpBuffer2 = true;
+                    jumpCoyoteTimer2 = 0;
+                    preJumpTimer2 = 0;
+                    waitJump2 = false;
+                    jumpTimer2 = 0.30f;
+                    playerObject2.GetComponent<Rigidbody2D>().velocity = new Vector2(playerObject2.GetComponent<Rigidbody2D>().velocity.x, 0);
+                    playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed * ((1 - movementAmount2) / 2 + 0.7f);
+
+
+                }
+
+                fallMultiplier = 2.5f;
+                lowJumpMultiplier = 2f;
+
+                if (playerObject2.GetComponent<Rigidbody2D>().velocity.y < 0)
+                {
+                    playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                }
+                else if (playerObject2.GetComponent<Rigidbody2D>().velocity.y > 0 && !p2Jump)
+                {
+                    playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                }
+
+                Debug.Log(playerObject2.GetComponent<Rigidbody2D>().velocity);
+            }
+
+
             //dashing
             dashTimer -= Time.deltaTime;
 
@@ -1160,7 +1245,7 @@ public class PlayerController : MonoBehaviour
 
             if(dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
             {
-                dashTimer = 5f;
+                dashTimer = 5f - (2.5f * (1-dashingAmount));
                 dashBuffer = true;
 
                 if(p1Move.x > 0)
@@ -1175,6 +1260,32 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            if (splitKeyboard)
+            {
+                dashTimer2 -= Time.deltaTime;
+
+                if (!p2Dash)
+                {
+                    dashBuffer2 = false;
+                }
+
+                if (dashTimer2 <= 0 && p2Dash && p2Move.x != 0 && !dashBuffer2)
+                {
+                    dashTimer2 = 5f - (2.5f * (1 - dashingAmount2));
+                    dashBuffer2 = true;
+
+                    if (p2Move.x > 0)
+                    {
+                        playerObject2.GetComponent<Rigidbody2D>().velocity = new Vector2(0, playerObject2.GetComponent<Rigidbody2D>().velocity.y);
+                        playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.right * 4;
+                    }
+                    else
+                    {
+                        playerObject2.GetComponent<Rigidbody2D>().velocity = new Vector2(0, playerObject2.GetComponent<Rigidbody2D>().velocity.y);
+                        playerObject2.GetComponent<Rigidbody2D>().velocity += Vector2.right * -4;
+                    }
+                }
+            }
 
         }
     }

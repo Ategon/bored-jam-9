@@ -1713,7 +1713,7 @@ MonoBehaviour:
   globalLight: {fileID: 1627245951}
   globalLight2: {fileID: 815844124}
   stations:
-  - name: Union
+  - name: Union Station
     color: {r: 0.7137255, g: 0.8156863, b: 1, a: 1}
     targetRed: 0
     targetBlue: 0

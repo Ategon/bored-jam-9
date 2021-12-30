@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour
     private float healAmount;
     private float movementAmount;
     private float dashingAmount;
+    private float healAmount2;
+    private float movementAmount2;
+    private float dashingAmount2;
+
+    private int playerHealth = 3;
+    private int playerHealth2 = 3;
 
     [SerializeField] private float maxMovementSpeed;
     [SerializeField] private float movementSpeed;
@@ -741,7 +747,7 @@ public class PlayerController : MonoBehaviour
             }
         } else if (inGame)
         {
-            float shiftingAmount = 0.005f;
+            float shiftingAmount = 0.01f;
             RunManager runManager = GameObject.Find("Run Manager").GetComponent<RunManager>();
 
             if (runManager.stationNum != 1)
@@ -888,6 +894,8 @@ public class PlayerController : MonoBehaviour
                 paletteColors[p1ColorSelectIndex].clothesDDD = Color.HSVToRGB(H + (0.2f * direction), S - 0.2f, V - 0.4f);
 
                 paletteColors[p1ColorSelectIndex].clothesL = new Color(red, green, blue);
+
+               
 
                 GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
 
@@ -1037,8 +1045,25 @@ public class PlayerController : MonoBehaviour
 
                     paletteColors2[p2ColorSelectIndex].clothesL = new Color(red, green, blue);
 
+                    
+
                     GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
                 }
+            }
+
+            Color combinedColors = (paletteColors[p1ColorSelectIndex].clothesL + paletteColors[p1ColorSelectIndex].bodyL + paletteColors[p1ColorSelectIndex].hairL) / 3;
+            healAmount = combinedColors.g;
+            movementAmount = combinedColors.r;
+            dashingAmount = combinedColors.b;
+
+            if (splitKeyboard)
+            {
+
+
+                Color combinedColors2 = (paletteColors2[p2ColorSelectIndex].clothesL + paletteColors2[p2ColorSelectIndex].bodyL + paletteColors2[p2ColorSelectIndex].hairL) / 3;
+                healAmount2 = combinedColors2.g;
+                movementAmount2 = combinedColors2.r;
+                dashingAmount2 = combinedColors2.b;
             }
 
             //playerObject.GetComponent<Rigidbody2D>().MovePosition(playerObject.transform.position + Vector3.right * p1Move.x * Time.deltaTime * 1 * 1);
@@ -1050,10 +1075,10 @@ public class PlayerController : MonoBehaviour
 
             //Moving
             var direction2 = new Vector3(p1Move.x, 0f);
-            playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed);
+            playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount/2 + 0.7f));
 
             float maxMovementSpeed2 = maxMovementSpeed;
-            if (dashTimer > 4.8) maxMovementSpeed2 += 4f;
+            if (dashTimer > 4.9f - (0.2f * dashingAmount)) maxMovementSpeed2 += 4f;
 
             if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
             {
@@ -1107,7 +1132,7 @@ public class PlayerController : MonoBehaviour
                 waitJump = false;
                 jumpTimer = 0.30f;
                 playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(playerObject.GetComponent<Rigidbody2D>().velocity.x, 0);
-                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed;
+                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed * ((1 - movementAmount)/2 + 0.7f);
 
                 
             }

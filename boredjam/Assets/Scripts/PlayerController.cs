@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject[] colorTiles;
     [SerializeField] private Sprite[] controlsSprites;
     [SerializeField] private Collision collisionScript;
+    [SerializeField] private Sprite twoHearts;
+    [SerializeField] private Sprite oneHeart;
 
     private GameObject characterSelect;
     private GameObject character2Select;
@@ -22,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private bool dashBuffer;
     private float dashTimer2;
     private bool dashBuffer2;
+    private bool p1Dead;
+    private bool p2Dead;
 
     private float changeCooldown2 = 0;
     private bool escapeBuffer2 = false;
@@ -77,6 +81,9 @@ public class PlayerController : MonoBehaviour
     private PlayerManager playerManager;
 
     private float health;
+    private float invincibleTimer = 3;
+    private float invincibleTimer2 = 3;
+
 
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float jumpCoyoteTimer;
@@ -902,9 +909,12 @@ public class PlayerController : MonoBehaviour
 
                 paletteColors[p1ColorSelectIndex].clothesL = new Color(red, green, blue);
 
-               
 
-                GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+                if (!p1Dead)
+                {
+                    GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+                }
+               
 
 
 
@@ -1052,9 +1062,11 @@ public class PlayerController : MonoBehaviour
 
                     paletteColors2[p2ColorSelectIndex].clothesL = new Color(red, green, blue);
 
-                    
 
-                    GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
+                    if (!p2Dead)
+                    {
+                        GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
+                    }
                 }
             }
 
@@ -1063,8 +1075,12 @@ public class PlayerController : MonoBehaviour
             movementAmount = combinedColors.r;
             dashingAmount = combinedColors.b;
 
-            playerObject.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors;
-            playerObject.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors;
+            if (!p1Dead)
+            {
+                playerObject.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors;
+                playerObject.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors;
+                playerObject.transform.Find("Player Health").GetComponent<SpriteRenderer>().color = combinedColors;
+            }
 
             if (splitKeyboard)
             {
@@ -1075,34 +1091,41 @@ public class PlayerController : MonoBehaviour
                 movementAmount2 = combinedColors2.r;
                 dashingAmount2 = combinedColors2.b;
 
-                playerObject2.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors2;
-                playerObject2.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors2;
+                if (!p2Dead)
+                {
+                    playerObject2.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors2;
+                    playerObject2.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors2;
+                    playerObject2.transform.Find("Player Health").GetComponent<SpriteRenderer>().color = combinedColors2;
+                }
             }
 
             //playerObject.GetComponent<Rigidbody2D>().MovePosition(playerObject.transform.position + Vector3.right * p1Move.x * Time.deltaTime * 1 * 1);
 
             //Moving
-            var direction2 = new Vector3(p1Move.x, 0f);
-            playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount/2 + 0.7f));
-
-            float maxMovementSpeed2 = maxMovementSpeed;
-            if (dashTimer > (5f - (2.5f * (1 - dashingAmount)) - 0.1f) - (0.2f * dashingAmount)) maxMovementSpeed2 += 4f;
-
-            if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
+            if (!p1Dead)
             {
-                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                var direction2 = new Vector3(p1Move.x, 0f);
+                playerObject.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount / 2 + 0.7f));
+
+                float maxMovementSpeed2 = maxMovementSpeed;
+                if (dashTimer > (5f - (2.5f * (1 - dashingAmount)) - 0.1f) - (0.2f * dashingAmount)) maxMovementSpeed2 += 4f;
+
+                if (playerObject.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                }
+                if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed2)
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
+                }
             }
-            if (playerObject.GetComponent<Rigidbody2D>().velocity.x < -maxMovementSpeed2)
-            {
-                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxMovementSpeed2, playerObject.GetComponent<Rigidbody2D>().velocity.y);
-            }
 
-            if (splitKeyboard)
+            if (splitKeyboard && !p2Dead)
             {
-                direction2 = new Vector3(p2Move.x, 0f);
+                var direction2 = new Vector3(p2Move.x, 0f);
                 playerObject2.GetComponent<Rigidbody2D>().AddForce(direction2 * movementSpeed * (movementAmount2 / 2 + 0.7f));
 
-                maxMovementSpeed2 = maxMovementSpeed;
+                float maxMovementSpeed2 = maxMovementSpeed;
                 if (dashTimer2 > (5f - (2.5f * (1 - dashingAmount2)) - 0.1f) - (0.2f * dashingAmount2)) maxMovementSpeed2 += 4f;
 
                 if (playerObject2.GetComponent<Rigidbody2D>().velocity.x > maxMovementSpeed2)
@@ -1116,67 +1139,69 @@ public class PlayerController : MonoBehaviour
             }
 
             //JUMPING [>A
-            jumpCoyoteTimer -= Time.deltaTime;
-            preJumpTimer -= Time.deltaTime;
+            if (!p1Dead)
+            {
+                jumpCoyoteTimer -= Time.deltaTime;
+                preJumpTimer -= Time.deltaTime;
 
-            if (jumpTimer > 0)
-                if (waitJump == true)
+                if (jumpTimer > 0)
+                    if (waitJump == true)
+                        jumpTimer = 0;
+                    else
+                        jumpTimer -= Time.deltaTime;
+                else if (jumpTimer < 0)
+                {
+                    waitJump = true;
                     jumpTimer = 0;
+                }
+
+                if (!playerObject.GetComponent<Collision>().onGround)
+                {
+                    waitJump = true;
+                }
+
+                if (playerObject.GetComponent<Collision>().onGround)
+                {
+                    jumpCoyoteTimer = 0.1f;
+                }
+
+                if (p1Jump)
+                {
+                    preJumpTimer = 0.1f;
+                }
                 else
-                    jumpTimer -= Time.deltaTime;
-            else if (jumpTimer < 0)
-            {
-                waitJump = true;
-                jumpTimer = 0;
+                {
+                    jumpBuffer = false;
+                }
+
+
+                if (preJumpTimer > 0 && jumpCoyoteTimer > 0 && waitJump && !jumpBuffer)
+                {
+                    jumpBuffer = true;
+                    jumpCoyoteTimer = 0;
+                    preJumpTimer = 0;
+                    waitJump = false;
+                    jumpTimer = 0.30f;
+                    playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(playerObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+                    playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed * ((1 - movementAmount) / 2 + 0.7f);
+
+
+                }
+
+                float fallMultiplier = 2.5f;
+                float lowJumpMultiplier = 2f;
+
+                if (playerObject.GetComponent<Rigidbody2D>().velocity.y < 0)
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                }
+                else if (playerObject.GetComponent<Rigidbody2D>().velocity.y > 0 && !p1Jump)
+                {
+                    playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                }
             }
 
-            if (!playerObject.GetComponent<Collision>().onGround)
-            {
-                waitJump = true;
-            }
-
-            if (playerObject.GetComponent<Collision>().onGround)
-            {
-                jumpCoyoteTimer = 0.1f;
-            }
-
-            if (p1Jump)
-            {
-                preJumpTimer = 0.1f;
-            } 
-            else
-            {
-                jumpBuffer = false;
-            }
-
-
-            if (preJumpTimer > 0 && jumpCoyoteTimer > 0 && waitJump && !jumpBuffer)
-            {
-                jumpBuffer = true;
-                jumpCoyoteTimer = 0;
-                preJumpTimer = 0;
-                waitJump = false;
-                jumpTimer = 0.30f;
-                playerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(playerObject.GetComponent<Rigidbody2D>().velocity.x, 0);
-                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * jumpSpeed * ((1 - movementAmount)/2 + 0.7f);
-
-                
-            }
-
-            float fallMultiplier = 2.5f;
-            float lowJumpMultiplier = 2f;
-
-            if (playerObject.GetComponent<Rigidbody2D>().velocity.y< 0)
-            {
-                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up* Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-            }
-            else if (playerObject.GetComponent<Rigidbody2D>().velocity.y > 0 && !p1Jump)
-            {
-                playerObject.GetComponent<Rigidbody2D>().velocity += Vector2.up* Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
-            }
-
-
-            if (splitKeyboard)
+            if (splitKeyboard && !p2Dead)
             {
                 jumpCoyoteTimer2 -= Time.deltaTime;
                 preJumpTimer2 -= Time.deltaTime;
@@ -1225,8 +1250,8 @@ public class PlayerController : MonoBehaviour
 
                 }
 
-                fallMultiplier = 2.5f;
-                lowJumpMultiplier = 2f;
+                float fallMultiplier = 2.5f;
+                float lowJumpMultiplier = 2f;
 
                 if (playerObject2.GetComponent<Rigidbody2D>().velocity.y < 0)
                 {
@@ -1240,32 +1265,39 @@ public class PlayerController : MonoBehaviour
 
 
             //dashing
-            dashTimer -= Time.deltaTime;
-
-            if (!p1Dash)
+            if (!p1Dead)
             {
-                dashBuffer = false;
+                dashTimer -= Time.deltaTime;
+
+                if (!p1Dash)
+                {
+                    dashBuffer = false;
+                }
+
+                if (dashTimer > 0)
+                {
+                    playerObject.transform.Find("Dash Indicator").gameObject.SetActive(false);
+                }
+                else
+                {
+                    playerObject.transform.Find("Dash Indicator").gameObject.SetActive(true);
+                }
             }
 
-            if(dashTimer > 0)
+            if (splitKeyboard && !p2Dead)
             {
-                playerObject.transform.Find("Dash Indicator").gameObject.SetActive(false);
-            } 
-            else
-            {
-                playerObject.transform.Find("Dash Indicator").gameObject.SetActive(true);
+
+                if (dashTimer2 > 0)
+                {
+                    playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(false);
+                }
+                else
+                {
+                    playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(true);
+                }
             }
 
-            if (dashTimer2 > 0)
-            {
-                playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(false);
-            }
-            else
-            {
-                playerObject2.transform.Find("Dash Indicator").gameObject.SetActive(true);
-            }
-
-            if (dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
+            if (!p1Dead && dashTimer <= 0 && p1Dash && p1Move.x != 0 && !dashBuffer)
             {
                 dashTimer = 5f - (2.5f * (1-dashingAmount));
                 dashBuffer = true;
@@ -1282,7 +1314,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (splitKeyboard)
+            if (splitKeyboard && !p2Dead)
             {
                 dashTimer2 -= Time.deltaTime;
 
@@ -1309,8 +1341,90 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            if (!p1Dead)
+            {
+                if (playerObject.GetComponent<Collision>().hitMissile)
+                {
+                    if (invincibleTimer <= 0)
+                    {
+                        invincibleTimer = 3f;
+                        playerObject.transform.Find("Player Health").gameObject.SetActive(true);
+                        playerHealth -= 1;
+                        if (playerHealth == 2)
+                        {
+                            playerObject.transform.Find("Player Health").gameObject.GetComponent<SpriteRenderer>().sprite = twoHearts;
+                        }
+                        if (playerHealth == 1)
+                        {
+                            playerObject.transform.Find("Player Health").gameObject.GetComponent<SpriteRenderer>().sprite = oneHeart;
+                        }
+
+                        if (playerHealth <= 0)
+                        {
+                            GameObject.Find("Run Manager").GetComponent<RunManager>().alivePlayers--;
+                            Destroy(playerObject);
+                            p1Dead = true;
+                        }
+                    }
+
+                    playerObject.GetComponent<Collision>().hitMissile = false;
+                }
+
+                if (invincibleTimer > 0)
+                {
+                    invincibleTimer -= Time.deltaTime;
+                }
+                else if (invincibleTimer < 0)
+                {
+                    invincibleTimer = 0;
+                    playerObject.transform.Find("Player Health").gameObject.SetActive(false);
+                }
+            }
+
+            if (splitKeyboard && !p2Dead)
+            {
+                if (playerObject2.GetComponent<Collision>().hitMissile)
+                {
+                    if (invincibleTimer2 <= 0)
+                    {
+                        invincibleTimer2 = 3f;
+                        playerObject2.transform.Find("Player Health").gameObject.SetActive(true);
+                        playerHealth2 -= 1;
+                        if (playerHealth2 == 2)
+                        {
+                            playerObject2.transform.Find("Player Health").gameObject.GetComponent<SpriteRenderer>().sprite = twoHearts;
+                        }
+                        if (playerHealth2 == 1)
+                        {
+                            playerObject2.transform.Find("Player Health").gameObject.GetComponent<SpriteRenderer>().sprite = oneHeart;
+                        }
+
+                        if (playerHealth2 <= 0)
+                        {
+                            GameObject.Find("Run Manager").GetComponent<RunManager>().alivePlayers--;
+                            Destroy(playerObject2);
+                            p2Dead = true;
+                        }
+                    }
+
+                    playerObject2.GetComponent<Collision>().hitMissile = false;
+                }
+
+                if (invincibleTimer2 > 0)
+                {
+                    invincibleTimer2 -= Time.deltaTime;
+                }
+                else if (invincibleTimer2 < 0)
+                {
+                    invincibleTimer2 = 0;
+                    playerObject2.transform.Find("Player Health").gameObject.SetActive(false);
+                }
+            }
+
         }
     }
+
+    
 
     public void GenerateCharacterSelect(GameObject characterSelect, List<PaletteColor> paletteColors)
     { 
@@ -1518,6 +1632,8 @@ public class PlayerController : MonoBehaviour
         }
 
         characterSelect.transform.Find("Colors").Find("Selection").localPosition = new Vector3(-0.12f + 0.09f * xLevel, 0.33f - 0.09f * yLevel, transform.localPosition.y);
+
+
     }
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -1526,14 +1642,21 @@ public class PlayerController : MonoBehaviour
         {   
             playerObject = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
             GenerateRunningSprite(playerObject, paletteColors[p1ColorSelectIndex]);
+            GameObject.Find("Run Manager").GetComponent<RunManager>().alivePlayers++;
+            GameObject.Find("Run Manager").GetComponent<RunManager>().startRound = true;
 
             if (splitKeyboard)
             {
                 playerObject2 = Instantiate(playerPrefab, new Vector3(Random.Range(-1.1f, 1.1f), -0.25f, 0), Quaternion.identity);
                 GenerateRunningSprite(playerObject2, paletteColors2[p2ColorSelectIndex]);
+                GameObject.Find("Run Manager").GetComponent<RunManager>().alivePlayers++;
             }
 
             inGame = true;
+        }
+        else if (scene.buildIndex == 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 

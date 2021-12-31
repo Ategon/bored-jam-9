@@ -10,6 +10,7 @@ public class Collision : MonoBehaviour
     [Space]
 
     public bool onGround;
+    public bool hitMissile;
 
     [Space]
 
@@ -31,4 +32,16 @@ public class Collision : MonoBehaviour
 
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.gameObject.tag == "Missile")
+        {
+            hitMissile = true;
+
+        }
+    }
+
+
 }

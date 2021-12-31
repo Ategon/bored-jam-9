@@ -379,6 +379,8 @@ MonoBehaviour:
   - {fileID: 676174020, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
   - {fileID: -1908403876, guid: 8a8f3576520849d49bb3d04ebe16a579, type: 3}
   collisionScript: {fileID: 0}
+  twoHearts: {fileID: 132296461, guid: a30112c87e82f6640ab78ec05dfac2c1, type: 3}
+  oneHeart: {fileID: 1015967463, guid: a30112c87e82f6640ab78ec05dfac2c1, type: 3}
   playerPrefab: {fileID: 4209273183163933238, guid: d40f21ba17e15284eb34ab8b599b0168, type: 3}
   maxMovementSpeed: 2
   movementSpeed: 10
@@ -403,3 +405,5 @@ MonoBehaviour:
   jumpSpeed: 5
   jumpCoyoteTimer: 0
   preJumpTimer: 0
+  jumpCoyoteTimer2: 0
+  preJumpTimer2: 0

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RunManager : MonoBehaviour
 {
     [Header("Variables")]
     [SerializeField] private float highscore;
-    [SerializeField] private float distance;
+    public float distance;
     private bool alive = true;
     public int stationNum = 1;
     private int lastStation = 0;
@@ -23,6 +24,11 @@ public class RunManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI distanceText;
     [SerializeField] private TextMeshProUGUI stationName;
     [SerializeField] private TextMeshProUGUI stationNumber;
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private TextMeshProUGUI endDistance;
+
+    public int alivePlayers = 0;
+    public bool startRound = false;
 
     [System.Serializable]
     public class Station
@@ -38,10 +44,23 @@ public class RunManager : MonoBehaviour
     {
         currentStation = stations[0];
         StartStation();
-    }    
+    }
+
+    public void backMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 
     void FixedUpdate()
     {
+        if(startRound && alivePlayers == 0)
+        {
+            alive = false;
+            Time.timeScale = 0;
+            endScreen.SetActive(true);
+            endDistance.text = "You ran " + distance.ToString("1F") + " meters!";
+        }
+
         if (alive)
         {
             distance += Time.deltaTime;

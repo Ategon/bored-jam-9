@@ -311,6 +311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 2993328597791506804, guid: d99e72b6ec47a2743986cd8b251d57f3, type: 3}
+      propertyPath: orthographic size
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 2993328597791506805, guid: d99e72b6ec47a2743986cd8b251d57f3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -7643,8 +7647,8 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 640, y: 360}
-  m_ScreenMatchMode: 2
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

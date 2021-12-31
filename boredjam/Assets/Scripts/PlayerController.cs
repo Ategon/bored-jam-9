@@ -1366,7 +1366,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerObject.GetComponent<Collision>().hitMissile)
                 {
-                    if (invincibleTimer <= 0)
+                    if (invincibleTimer <= 0 && dashTimer <= (5f - (2.5f * (1 - dashingAmount)) - 0.1f) - (0.2f * dashingAmount))
                     {
                         invincibleTimer = 3f;
                         playerObject.transform.Find("Player Health").gameObject.SetActive(true);
@@ -1406,7 +1406,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerObject2.GetComponent<Collision>().hitMissile)
                 {
-                    if (invincibleTimer2 <= 0)
+                    if (invincibleTimer2 <= 0 && dashTimer2 <= (5f - (2.5f * (1 - dashingAmount2)) - 0.1f) - (0.2f * dashingAmount2))
                     {
                         invincibleTimer2 = 3f;
                         playerObject2.transform.Find("Player Health").gameObject.SetActive(true);

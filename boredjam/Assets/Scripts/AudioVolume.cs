@@ -28,11 +28,11 @@ public class AudioVolume : MonoBehaviour
                 PersistingData.OnSoundtrackVolume += VolumeChange;
                 break;
             case AudioType.SFX:
-                audioSource.volume = (float)Math.Pow(((float)persistingData.SfxVolume / 10) * ((float)persistingData.SfxVolume / 10), 0.5f);
+                audioSource.volume = (float)Math.Pow(((float)persistingData.SfxVolume / 10) * ((float)persistingData.MasterVolume / 10), 0.5f);
                 PersistingData.OnUIVolume += VolumeChange;
                 break;
             case AudioType.Game:
-                audioSource.volume = (float)Math.Pow(((float)persistingData.GameVolume / 10) * ((float)persistingData.GameVolume / 10), 0.5f);
+                audioSource.volume = (float)Math.Pow(((float)persistingData.GameVolume / 10) * ((float)persistingData.MasterVolume / 10), 0.5f);
                 PersistingData.OnGameVolume += VolumeChange;
                 break;
             default:

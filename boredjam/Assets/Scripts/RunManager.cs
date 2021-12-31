@@ -58,7 +58,7 @@ public class RunManager : MonoBehaviour
             alive = false;
             Time.timeScale = 0;
             endScreen.SetActive(true);
-            endDistance.text = "You ran " + distance.ToString("1F") + " meters!";
+            endDistance.text = "You ran " + distance.ToString("F1") + " meters!";
         }
 
         if (alive)

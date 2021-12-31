@@ -13,6 +13,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collision collisionScript;
     [SerializeField] private Sprite twoHearts;
     [SerializeField] private Sprite oneHeart;
+    [SerializeField] private Sprite[] playerTags;
+    [SerializeField] private Sprite[] playerTagsBack;
+
+    private Sprite chosenTag;
+    private Sprite chosenTag2;
+    private Sprite chosenTagBack;
+    private Sprite chosenTagBack2;
 
     private GameObject characterSelect;
     private GameObject character2Select;
@@ -357,6 +364,8 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
 
+                chosenTag = playerTags[playerManager.overrideIndex];
+                chosenTagBack = playerTagsBack[playerManager.overrideIndex];
                 playerManager.overrideIndex = -1;
             }
             else
@@ -377,6 +386,9 @@ public class PlayerController : MonoBehaviour
                         characterSelect = GameObject.Find("P4CharacterSelect");
                         break;
                 }
+
+                chosenTag = playerTags[playerManager.totalPlayers-1];
+                chosenTagBack = playerTagsBack[playerManager.totalPlayers - 1];
             }
             defaultX = characterSelect.transform.Find("Character").Find("Color Bars").Find("Red").transform.position.x;
 
@@ -700,6 +712,8 @@ public class PlayerController : MonoBehaviour
                                         break;
                                 }
 
+                                chosenTag2 = playerTags[playerManager.overrideIndex - 1];
+                                chosenTagBack2 = playerTagsBack[playerManager.overrideIndex - 1];
                                 playerManager.overrideIndex = -1;
                             } else
                             {
@@ -718,6 +732,9 @@ public class PlayerController : MonoBehaviour
                                         character2Select = GameObject.Find("P4CharacterSelect");
                                         break;
                                 }
+
+                                chosenTag2 = playerTags[playerManager.totalPlayers - 1];
+                                chosenTagBack2 = playerTagsBack[playerManager.totalPlayers - 1];
                             }
 
                             if(defaultX2 == 0)
@@ -1078,6 +1095,8 @@ public class PlayerController : MonoBehaviour
             if (!p1Dead)
             {
                 playerObject.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors;
+                playerObject.transform.Find("Player Tag").GetComponent<SpriteRenderer>().sprite = chosenTag;
+                playerObject.transform.Find("Player Tag").Find("Player Tag (1)").GetComponent<SpriteRenderer>().sprite = chosenTagBack;
                 playerObject.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors;
                 playerObject.transform.Find("Player Health").GetComponent<SpriteRenderer>().color = combinedColors;
             }
@@ -1094,6 +1113,8 @@ public class PlayerController : MonoBehaviour
                 if (!p2Dead)
                 {
                     playerObject2.transform.Find("Player Tag").GetComponent<SpriteRenderer>().color = combinedColors2;
+                    playerObject2.transform.Find("Player Tag").GetComponent<SpriteRenderer>().sprite = chosenTag2;
+                    playerObject2.transform.Find("Player Tag").Find("Player Tag (1)").GetComponent<SpriteRenderer>().sprite = chosenTagBack2;
                     playerObject2.transform.Find("Dash Indicator").GetComponent<SpriteRenderer>().color = combinedColors2;
                     playerObject2.transform.Find("Player Health").GetComponent<SpriteRenderer>().color = combinedColors2;
                 }

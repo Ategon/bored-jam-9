@@ -1,3 +1,9 @@
 Base path: 'C:/Program Files/Unity/Hub/Editor/2021.2.0f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2021.2.0f1/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
 
+Cmd: compileComputeKernel
+  insize=7048 file=C:/Users/benja/Documents/GitHub/boredjam9/boredjam/Library/PackageCache/com.unity.render-pipelines.core@12.1.0/Editor/Lighting/ProbeVolume/ProbeVolumeSubdivide.compute kernel=Subdivide cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=20 km=<UNITY_VERSION=202120> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=gles3 flags=4096 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=3723
+
+Cmd: compileComputeKernel
+  insize=7048 file=C:/Users/benja/Documents/GitHub/boredjam9/boredjam/Library/PackageCache/com.unity.render-pipelines.core@12.1.0/Editor/Lighting/ProbeVolume/ProbeVolumeSubdivide.compute kernel=ClearBuffer cachingPP=1 ppOnly=0 stripLineD=0 buildPlatform=20 km=<UNITY_VERSION=202120> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=gles3 flags=4096 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=1038
+

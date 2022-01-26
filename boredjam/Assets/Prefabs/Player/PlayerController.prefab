@@ -410,7 +410,21 @@ MonoBehaviour:
   p2Dash: 0
   p1ColorSelectIndex: 0
   p2ColorSelectIndex: 0
-  paletteColors: []
+  paletteColors:
+  - hairL: {r: 0, g: 0, b: 0, a: 0}
+    hairM: {r: 0, g: 0, b: 0, a: 0}
+    hairD: {r: 0, g: 0, b: 0, a: 0}
+    hairE: {r: 0, g: 0, b: 0, a: 0}
+    bodyL: {r: 0, g: 0, b: 0, a: 0}
+    bodyM: {r: 0, g: 0, b: 0, a: 0}
+    bodyD: {r: 0, g: 0, b: 0, a: 0}
+    clothesL: {r: 0, g: 0, b: 0, a: 0}
+    clothesM: {r: 0, g: 0, b: 0, a: 0}
+    clothesD: {r: 0, g: 0, b: 0, a: 0}
+    clothesDD: {r: 0, g: 0, b: 0, a: 0}
+    clothesDDD: {r: 0, g: 0, b: 0, a: 0}
+    miscL: {r: 0, g: 0, b: 0, a: 0}
+    miscD: {r: 0, g: 0, b: 0, a: 0}
   paletteColors2: []
   jumpSpeed: 5
   jumpCoyoteTimer: 0
